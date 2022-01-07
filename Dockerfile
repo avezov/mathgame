@@ -1,7 +1,7 @@
 FROM node:alpine as frontend
 WORKDIR /app
 
-COPY --chown=node:node frontend/package*.json /app
+COPY --chown=node:node frontend/package*.json /app/
 RUN npm install
 COPY --chown=node:node frontend/src /app/src
 COPY --chown=node:node frontend/public /app/public
@@ -16,7 +16,7 @@ RUN npx prisma db push && npm run build
 
 FROM node:alpine
 WORKDIR /app/backend
-COPY --from=frontend /app/build /app/frontend/build
-COPY --from=backend /app /app/backend
+COPY --from=frontend --chown=node:node /app/build /app/frontend/build
+COPY --from=backend --chown=node:node /app /app/backend
 
-CMD [ "dist/index.js" ]
+CMD [ "node", "dist/index.js" ]

@@ -4,5 +4,6 @@ services:
   mathgame:
     build:
       dockerfile: ./Dockerfile
+      context: '.'
     ports:
-      - "3000:3000"
+      - "5013:3000"
